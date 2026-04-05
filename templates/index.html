@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="catalogo-titulo">Catálogo</h1>
+
+<div class="productos-grid">
+    {% for p in productos %}
+    <div class="card">
+        
+        {% if p.id == 1 %}
+            <img src="{{ url_for('static', filename='img/aesthetic.png') }}" alt="Stickers">
+        {% elif p.id == 2 %}
+            <img src="{{ url_for('static', filename='img/manzanas.jpg') }}" alt="Stickers">
+        {% elif p.id == 3 %}
+            <img src="{{ url_for('static', filename='img/pompompurin.jpg') }}" alt="Stickers">
+        {% elif p.id == 4 %}
+            <img src="{{ url_for('static', filename='img/sanrio.jpg') }}" alt="Stickers">
+        {% elif p.id == 5 %}
+            <img src="{{ url_for('static', filename='img/totoro.jpg') }}" alt="Stickers">
+        {% else %}
+            <img src="https://cdn-icons-png.flaticon.com/512/4554/4554445.png" alt="Default">
+        {% endif %}
+        
+        <h3>{{ p.nombre }}</h3>
+        <p style="color: #666; margin: 5px 0;">{{ p.descripcion }}</p>
+        
+        <div class="info-precio">
+            <span class="precio">${{ "%.2f"|format(p.precio) }}</span>
+            <span class="badge-stock">Stock: {{ p.stock }}</span>
+        </div>
+        
+        <div class="botones-container">
+            <a href="#" class="btn-ver">Ver</a>
+            <form method="POST" action="/carrito/agregar">
+                <input type="hidden" name="producto_id" value="{{ p.id }}">
+                <button type="submit" class="btn-agregar">Agregar 🛒</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div style="text-align: center; margin: 40px 0;">
+    <a href="/admin/agregar" style="color: var(--azul-oscuro); text-decoration: none; font-weight: bold;">+ Añadir nuevo producto (Admin)</a>
+</div>
+{% endblock %}

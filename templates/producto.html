@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ p["nombre"] }}</h1>
+<p>{{ p["descripcion"] or "" }}</p>
+<p><strong>Precio:</strong> ${{ "%.2f"|format(p["precio"]) }}</p>
+<p><strong>Stock:</strong> {{ p["stock"] }}</p>
+
+<form method="post" action="{{ url_for('carrito_agregar') }}">
+  <input type="hidden" name="producto_id" value="{{ p['id'] }}">
+  <input class="qty" type="number" name="cantidad" min="1" value="1">
+  <button class="btn primary" type="submit">Agregar al carrito</button>
+</form>
+{% endblock %}

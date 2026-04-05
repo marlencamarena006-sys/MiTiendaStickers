@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Carrito</h1>
+
+{% if not items %}
+  <p>No hay productos en el carrito.</p>
+{% else %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cant.</th>
+        <th>Precio</th>
+        <th>Subtotal</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for it in items %}
+      <tr>
+        <td>{{ it.p["nombre"] }}</td>
+        <td>{{ it.qty }}</td>
+        <td>${{ "%.2f"|format(it.p["precio"]) }}</td>
+        <td>${{ "%.2f"|format(it.subtotal) }}</td>
+        <td>
+          <form method="post" action="{{ url_for('carrito_quitar') }}">
+            <input type="hidden" name="producto_id" value="{{ it.p['id'] }}">
+            <button class="btn" type="submit">Quitar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="checkout">
+    <div class="total">Total: <strong>${{ "%.2f"|format(total) }}</strong></div>
+
+    <form method="post" action="{{ url_for('checkout') }}" class="checkoutform">
+      <input class="input" name="nombre" placeholder="Tu nombre" required>
+      <input class="input" name="email" placeholder="Tu email (opcional)">
+      <button class="btn primary" type="submit">Pagar (simulado)</button>
+    </form>
+  </div>
+{% endif %}
+{% endblock %}

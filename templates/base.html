@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Tienda de Stickers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1 style="letter-spacing: 2px;">MI TIENDA</h1>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-weight: bold;">CARRITO</span>
+            <span style="font-size: 1.8rem;">🛒</span>
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div style="background: #d4edda; color: #155724; padding: 15px; text-align: center;">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <div class="footer-promo">
+        <span> Envio gratis en compras +$500</span>
+    </div>
+</body>
+</html>
