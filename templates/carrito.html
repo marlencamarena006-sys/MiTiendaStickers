@@ -1,47 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Carrito</h1>
+<div style="padding: 40px 10%; background: white; border-radius: 20px; margin: 20px 10%; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+    <h1 style="color: var(--azul-oscuro); margin-bottom: 30px; text-align: center;">Tu Carrito de Stickers</h1>
 
-{% if not items %}
-  <p>No hay productos en el carrito.</p>
-{% else %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Producto</th>
-        <th>Cant.</th>
-        <th>Precio</th>
-        <th>Subtotal</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for it in items %}
-      <tr>
-        <td>{{ it.p["nombre"] }}</td>
-        <td>{{ it.qty }}</td>
-        <td>${{ "%.2f"|format(it.p["precio"]) }}</td>
-        <td>${{ "%.2f"|format(it.subtotal) }}</td>
-        <td>
-          <form method="post" action="{{ url_for('carrito_quitar') }}">
-            <input type="hidden" name="producto_id" value="{{ it.p['id'] }}">
-            <button class="btn" type="submit">Quitar</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    {% if not items %}
+        <div style="text-align: center; padding: 50px;">
+            <span style="font-size: 4rem;">🛒</span>
+            <p style="font-size: 1.2rem; color: #666; margin-top: 20px;">Tu carrito está vacío.</p>
+            <a href="/" class="btn-ver" style="display: inline-block; margin-top: 20px; text-decoration: none;">Ir al catálogo</a>
+        </div>
+    {% else %}
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--gris-fondo); text-align: left;">
+                    <th style="padding: 15px;">Producto</th>
+                    <th style="padding: 15px;">Cantidad</th>
+                    <th style="padding: 15px;">Precio Unitario</th>
+                    <th style="padding: 15px;">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in items %}
+                <tr style="border-bottom: 1px solid var(--gris-fondo);">
+                    <td style="padding: 15px; font-weight: bold; color: var(--azul-claro);">
+                        {{ producto['nombre'] }}
+                    </td>
+                    <td style="padding: 15px;">1 unidad</td>
+                    <td style="padding: 15px;">${{ "%.2f"|format(producto['precio']) }}</td>
+                    <td style="padding: 15px;">
+                        <form method="POST" action="{{ url_for('carrito_quitar') }}">
+                            <input type="hidden" name="producto_id" value="{{ producto['id'] }}">
+                            <button type="submit" style="background: none; border: none; color: #ef4444; cursor: pointer; text-decoration: underline; font-size: 0.8rem;">Quitar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-  <div class="checkout">
-    <div class="total">Total: <strong>${{ "%.2f"|format(total) }}</strong></div>
-
-    <form method="post" action="{{ url_for('checkout') }}" class="checkoutform">
-      <input class="input" name="nombre" placeholder="Tu nombre" required>
-      <input class="input" name="email" placeholder="Tu email (opcional)">
-      <button class="btn primary" type="submit">Pagar (simulado)</button>
-    </form>
-  </div>
-{% endif %}
+        <div style="border-top: 2px solid var(--gris-fondo); padding-top: 20px; text-align: right;">
+            <h3 style="margin-bottom: 20px;">Total a pagar: <span style="color: var(--azul-oscuro);">${{ "%.2f"|format(total) }}</span></h3>
+            
+            <form method="POST" action="{{ url_for('finalizar_compra') }}">
+                <button type="submit" class="btn-agregar" style="padding: 15px 40px; font-size: 1.1rem; width: 100%; max-width: 300px; cursor: pointer;">
+                    Confirmar Pedido y Pagar
+                </button>
+            </form>
+            <p style="font-size: 0.8rem; color: #999; margin-top: 10px;">
+                * Al confirmar, se generará un ID de pedido y se descontará del inventario.
+            </p>
+        </div>
+    {% endif %}
+</div>
 {% endblock %}
-
