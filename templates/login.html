@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-admin">
+    <h2 style="text-align: center; color: var(--azul-oscuro); margin-bottom: 20px;">Iniciar Sesión</h2>
+    
+    <form method="POST" action="{{ url_for('login') }}">
+        <label>Usuario:</label>
+        <input type="text" name="usuario" placeholder="Tu usuario" required>
+        
+        <label>Contraseña:</label>
+        <input type="password" name="password" placeholder="********" required>
+        
+        <button type="submit" class="btn-agregar" style="width: 100%; padding: 15px; font-size: 1.1rem; background-color: var(--azul-claro);">
+            Ingresar
+        </button>
+    </form>
+
+    <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; text-align: center;">
+        <p>¿No tienes cuenta? <a href="{{ url_for('registro') }}" style="color: var(--azul-oscuro);">Regístrate como Cliente</a></p>
+        <br>
+        <p style="font-size: 0.8rem; color: #999;">Acceso restringido para personal técnico</p>
+    </div>
+</div>
+{% endblock %}
