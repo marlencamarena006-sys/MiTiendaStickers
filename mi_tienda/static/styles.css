@@ -1,0 +1,74 @@
+:root {
+    --azul-oscuro: #1a3a8a;
+    --azul-claro: #3b82f6;
+    --gris-fondo: #f0f2f5;
+    --blanco: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+body { background-color: var(--gris-fondo); padding-bottom: 100px; }
+
+header {
+    background-color: var(--azul-oscuro);
+    color: white;
+    padding: 20px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;        
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.catalogo-titulo { text-align: center; margin: 40px 0; font-size: 2.5rem; font-weight: bold; }
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 0 10%;
+}
+
+.card {
+    background: var(--blanco);
+    border-radius: 40px; /* Redondeado extra como en tu dibujo */
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card:hover { transform: translateY(-10px); }
+
+.card img { width: 100%; max-width: 180px; border-radius: 20px; margin-bottom: 20px; }
+
+.info-precio { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 20px 0; }
+
+.precio { font-size: 1.4rem; font-weight: bold; }
+
+.badge-stock {
+    background-color: var(--azul-claro);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+
+.botones-container { display: flex; justify-content: center; gap: 10px; }
+
+.btn-ver { background: #9ca3af; color: white; padding: 10px 20px; border-radius: 15px; text-decoration: none; font-size: 0.9rem; }
+
+.btn-agregar { background: var(--azul-oscuro); color: white; padding: 10px 20px; border-radius: 15px; border: none; cursor: pointer; font-size: 0.9rem; }
+
+.footer-promo {
+    background-color: var(--azul-oscuro);
+    color: white;
+    position: fixed;
+    bottom: 0; width: 100%;
+    text-align: center; padding: 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* Admin Form */
+.form-admin { max-width: 450px; margin: 60px auto; background: white; padding: 40px; border-radius: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+.form-admin input { width: 100%; padding: 12px; margin: 10px 0 20px; border-radius: 10px; border: 1px solid #ddd; }

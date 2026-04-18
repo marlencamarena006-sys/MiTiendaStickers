@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-admin" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+    
+    <div style="background: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 30px; border-left: 5px solid var(--azul-oscuro);">
+        <h2 style="color: var(--azul-oscuro);">Reporte de Ventas de Hoy</h2>
+        <p><strong>Total Vendido:</strong> ${{ reporte[0] if reporte[0] else 0 }}</p>
+        <p><strong>Pedidos realizados:</strong> {{ reporte[1] if reporte[1] else 0 }}</p>
+        <button onclick="window.print()" class="btn-agregar" style="padding: 5px 15px; font-size: 0.9rem;">Imprimir Reporte</button>
+    </div>
+
+    <h2 style="text-align: center; color: var(--azul-oscuro); margin-bottom: 20px;" id="form-title">Gestionar Sticker</h2>
+    
+    <form action="/admin/producto/guardar" method="POST">
+        <input type="hidden" name="id" id="input-id">
+        
+        <label>Nombre del Sticker:</label>
+        <input type="text" name="nombre" id="input-nombre" placeholder="Ej. Pack Gatitos" required>
+        
+        <label>Descripción Corta:</label>
+        <input type="text" name="descripcion" id="input-desc" placeholder="Ej. 10 stickers mate">
+        
+        <label>Precio ($):</label>
+        <input type="number" step="0.01" name="precio" id="input-precio" placeholder="59.00" required>
+        
+        <label>Stock inicial:</label>
+        <input type="number" name="stock" id="input-stock" placeholder="50" required>
+
+        <label>Nombre de la Imagen:</label>
+        <input type="text" name="imagen" id="input-img" placeholder="ejemplo.png">
+        
+        <button type="submit" class="btn-agregar" style="width: 100%; padding: 15px; font-size: 1.1rem; margin-top: 10px;">
+            Guardar Sticker
+        </button>
+    </form>
+
+    <hr style="margin: 40px 0;">
+
+    <h2 style="color: var(--azul-oscuro);">Publicar Aviso</h2>
+    <form action="/admin/aviso" method="POST" style="margin-bottom: 40px;">
+        <textarea name="mensaje" placeholder="Escribe un aviso para tus clientes..." required style="width: 100%; height: 80px; margin-bottom: 10px; padding: 10px;"></textarea>
+        <button type="submit" style="background-color: orange; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">Publicar Aviso</button>
+    </form>
+
+    <h2 style="color: var(--azul-oscuro);">Inventario</h2>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <tr style="background: var(--azul-oscuro); color: white;">
+            <th style="padding: 10px;">Producto</th>
+            <th>Stock</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+        </tr>
+        {% for p in productos %}
+        <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px;">{{ p.nombre }}</td>
+            <td>{{ p.stock }}</td>
+            <td>${{ p.precio }}</td>
+            <td>
+                <button onclick="prepararEdicion('{{p.id}}', '{{p.nombre}}', '{{p.descripcion}}', '{{p.precio}}', '{{p.stock}}', '{{p.imagen}}')" style="color: blue; cursor: pointer; background: none; border: none;">Editar</button> | 
+                <a href="/admin/producto/eliminar/{{ p.id }}" style="color: red;" onclick="return confirm('¿Seguro que quieres eliminar este sticker?')">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <hr style="margin: 40px 0;">
+
+    <h2 style="color: var(--azul-oscuro);">Gestión de Pedidos</h2>
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr style="background: #333; color: white;">
+            <th style="padding: 10px;">ID</th>
+            <th>Cliente</th>
+            <th>Total</th>
+            <th>Estado</th>
+        </tr>
+        {% for ped in pedidos %}
+        <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 10px;">#{{ ped.id }}</td>
+            <td>{{ ped.cliente }}</td>
+            <td>${{ ped.total }}</td>
+            <td>
+                <form action="/admin/pedido/estado" method="POST">
+                    <input type="hidden" name="pedido_id" value="{{ ped.id }}">
+                    <input type="checkbox" name="entregado" onchange="this.form.submit()" {% if ped.estado == 'Completado' %}checked{% endif %}>
+                    <span>{{ ped.estado }}</span>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p style="text-align: center; margin-top: 40px;"><a href="/" style="color: #666;">Volver al Inicio</a></p>
+</div>
+
+<script>
+function prepararEdicion(id, nombre, desc, precio, stock, img) {
+    document.getElementById('form-title').innerText = "Editando Sticker: " + nombre;
+    document.getElementById('input-id').value = id;
+    document.getElementById('input-nombre').value = nombre;
+    document.getElementById('input-desc').value = desc;
+    document.getElementById('input-precio').value = precio;
+    document.getElementById('input-stock').value = stock;
+    document.getElementById('input-img').value = img;
+    window.scrollTo(0,0); // Sube la pantalla al formulario
+}
+</script>
+{% endblock %}

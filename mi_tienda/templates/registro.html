@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-admin">
+    <h2 style="text-align: center; color: var(--azul-oscuro); margin-bottom: 20px;">Crear Perfil</h2>
+    
+    <form method="POST" action="{{ url_for('registro') }}">
+        <label>Nombre Completo:</label>
+        <input type="text" name="nombre" placeholder="Ej. Marlen Pérez" required>
+        
+        <label>Nombre de Usuario:</label>
+        <input type="text" name="usuario" placeholder="Ej. marlen_dev" required>
+        
+        <label>Contraseña:</label>
+        <input type="password" name="password" placeholder="********" required>
+        
+        <button type="submit" class="btn-agregar" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+            Registrarme
+        </button>
+    </form>
+    
+    <p style="text-align: center; margin-top: 20px;">
+        ¿Ya tienes cuenta? <a href="{{ url_for('login') }}" style="color: var(--azul-claro);">Inicia sesión aquí</a>
+    </p>
+</div>
+{% endblock %}

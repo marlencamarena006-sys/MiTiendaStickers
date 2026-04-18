@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Catalogo</h1>
+
+<div class="grid">
+    {% for p in products %}
+    <div class="card">
+        <h3>{{ p["nombre"] }}</h3>
+        <p class="muted">{{ p["descripcion"] or ""}}</p>
+        <div class="row"> <strong>${{ "%.2f"|format(p["precio"])}}</strong>
+        <span class="pill">Stock: {{ p["stock"]}}</span>
+        </div>
+
+                <div class="row">
+                    <a class="btn" href="{{url_for('producto', producto_id=p['id']) }}">Ver</a>
+                    <form method="post" action="{{ url_for('carrito_agregar') }}">
+                        <input type="hidden" name="producto_id" value="{{ p['id']}}">
+                        <input type="number" class="qty"
+                        name="cantidad" min="1" value="1">
+                        <button class="btn primary" type="submit">Agregar</button>
+                    </form>
+                </div>
+    </div>
+        {% endfor %}
+</div>
+{% endblock %}

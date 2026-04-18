@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+    
+    {% if avisos %}
+    <div style="background: #fff3cd; border-left: 5px solid #ffc107; padding: 20px; border-radius: 8px; margin: 20px 0 40px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <h2 style="margin-top: 0; color: #856404; display: flex; align-items: center; gap: 10px;">
+            <span>📢</span> Avisos Importantes
+        </h2>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+            {% for aviso in avisos %}
+            <li style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.1); last-child { border: none; }">
+                <strong style="font-size: 1.1rem; color: #333;">{{ aviso.mensaje }}</strong> <br>
+                <small style="color: #666;">Publicado el: {{ aviso.fecha }}</small>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <h1 class="catalogo-titulo" style="text-align: center; margin-bottom: 40px;">Catálogo de Stickers</h1>
+
+    <div class="productos-grid">
+        {% for p in productos %}
+        <div class="card">
+            
+            <div class="img-container" style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #f9f9f9;">
+                {% if p.imagen and p.imagen != 'default.png' %}
+                    <img src="{{ url_for('static', filename='img/' + p.imagen) }}" alt="{{ p.nombre }}" style="width: 100%; height: 100%; object-fit: cover;">
+                {% else %}
+                    <img src="https://cdn-icons-png.flaticon.com/512/4554/4554445.png" alt="Sin imagen" style="width: 50%; opacity: 0.5;">
+                {% endif %}
+            </div>
+            
+            <h3>{{ p.nombre }}</h3>
+            <p style="color: #666; margin: 5px 0;">{{ p.descripcion }}</p>
+            
+            <div class="info-precio">
+                <span class="precio">${{ "%.2f"|format(p.precio) }}</span>
+                <span class="badge-stock">Stock: {{ p.stock }}</span>
+            </div>
+            
+            <div class="botones-container">
+                <a href="#" class="btn-ver">Ver</a>
+                <form method="POST" action="/carrito/agregar">
+                    <input type="hidden" name="producto_id" value="{{ p.id }}">
+                    <button type="submit" class="btn-agregar" {% if p.stock <= 0 %}disabled style="background: #ccc;"{% endif %}>
+                        {% if p.stock > 0 %}Agregar 🛒{% else %}Agotado{% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if session.get('rol') == 'admin' %}
+    <div style="text-align: center; margin: 40px 0;">
+        <a href="{{ url_for('admin_dashboard') }}" style="background: var(--azul-oscuro); color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">
+            + Gestionar Inventario (Panel Admin)
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
