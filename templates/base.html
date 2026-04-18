@@ -7,39 +7,45 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <header>
-        <h1 style="letter-spacing: 2px;">
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: var(--azul-oscuro, #1e293b);">
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <img src="{{ url_for('static', filename='img/logo_tiendita.png') }}" alt="Logo" style="height: 50px; width: auto; border-radius: 10px;">
+        
+        <h1 style="letter-spacing: 2px; margin: 0;">
             <a href="/" style="color: white; text-decoration: none;">MI TIENDA</a>
         </h1>
+    </div>
 
-        <div style="display: flex; align-items: center; gap: 20px;">
+    <div style="display: flex; align-items: center; gap: 25px;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <a href="/" style="color: white; text-decoration: none; font-size: 0.95rem; border-bottom: 1px solid transparent; transition: 0.3s;" onmouseover="this.style.borderColor='white'" onmouseout="this.style.borderColor='transparent'"></a>
             
-            {% if session.get('user_id') %}
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <span style="color: #a5f3fc; font-weight: bold;">Hola, {{ session['user_nombre'] }}</span>
-                    <a href="{{ url_for('logout') }}" style="color: white; font-size: 0.9rem; text-decoration: underline;">Cerrar Sesión</a>
-                </div>
-            {% else %}
-                <div style="display: flex; gap: 15px;">
-                    <a href="{{ url_for('login') }}" style="color: white; text-decoration: none; font-weight: bold;">Entrar</a>
-                    <a href="{{ url_for('registro') }}" style="color: white; text-decoration: none; font-weight: bold;">Registrarse</a>
-                </div>
-            {% endif %}
+            <a href="/sobre-nosotros" style="color: white; text-decoration: none; font-size: 0.95rem; font-weight: bold; border-bottom: 1px solid transparent; transition: 0.3s;" onmouseover="this.style.borderColor='white'" onmouseout="this.style.borderColor='transparent'">Sobre Nosotros</a>
+            <a href="/Catalogo" style="color: white; text-decoration: none; font-size: 0.95rem; font-weight: bold; border-bottom: 1px solid transparent; transition: 0.3s;" onmouseover="this.style.borderColor='white'" onmouseout="this.style.borderColor='transparent'">Catálogo</a>
 
-            <a href="{{ url_for('ver_carrito') }}" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 25px; transition: 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
-                <span style="font-weight: bold;">CARRITO</span>
-                <div style="position: relative; display: flex; align-items: center;">
-                    <span style="font-size: 1.8rem;">🛒</span>
-                    
-                    {% if session.get('carrito') and session['carrito']|length > 0 %}
-                    <span style="position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; font-size: 0.75rem; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; border: 2px solid var(--azul-oscuro);">
-                        {{ session['carrito']|length }}
-                    </span>
-                    {% endif %}
-                </div>
-            </a>
+
+            {% if session.get('user_id') %}
+                <span style="color: #a5f3fc; font-weight: bold;">Hola, {{ session['user_nombre'] }}</span>
+                <a href="{{ url_for('logout') }}" style="color: white; font-size: 0.9rem; text-decoration: underline;">Cerrar Sesión</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" style="color: white; text-decoration: none; font-weight: bold;">Entrar</a>
+                <a href="{{ url_for('registro') }}" style="color: white; text-decoration: none; font-weight: bold;">Registrarse</a>
+            {% endif %}
         </div>
-    </header>
+
+        <a href="{{ url_for('ver_carrito') }}" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 25px; transition: 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+            <span style="font-weight: bold;">CARRITO</span>
+            <div style="position: relative; display: flex; align-items: center;">
+                <span style="font-size: 1.8rem;">🛒</span>
+                {% if session.get('carrito') and session['carrito']|length > 0 %}
+                <span style="position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; font-size: 0.75rem; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; border: 2px solid var(--azul-oscuro);">
+                    {{ session['carrito']|length }}
+                </span>
+                {% endif %}
+            </div>
+        </a>
+    </div>
+</header>
 
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -55,9 +61,22 @@
         {% block content %}{% endblock %}
     </main>
 
-    <div class="footer-promo">
-        <span> Envío gratis en compras mayores a $500</span>
+    <footer class="footer-principal">
+    <div class="footer-content">
+        <div class="footer-section">
+            <p class="promo-text">🚚 Envío gratis en compras mayores a $500</p>
+        </div>
+        
+        <div class="footer-section contacto">
+            <p><strong>📞 Contacto:</strong> +52 123 456 7890</p>
+            <p><strong>📍 Ubicación:</strong> Aguascalientes, México</p>
+            <p><strong>✉️ Email:</strong> hola@mitienda.com</p>
+        </div>
     </div>
+    <div class="footer-bottom">
+        &copy; 2026 Mi Tienda de Stickers - Todos los derechos reservados.
+    </div>
+</footer>
 
 </body>
 </html>

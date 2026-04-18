@@ -72,3 +72,45 @@ header {
 /* Admin Form */
 .form-admin { max-width: 450px; margin: 60px auto; background: white; padding: 40px; border-radius: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
 .form-admin input { width: 100%; padding: 12px; margin: 10px 0 20px; border-radius: 10px; border: 1px solid #ddd; }
+
+/* Nuevos estilos para el Footer mejorado */
+.footer-principal {
+    background-color: var(--azul-oscuro);
+    color: white;
+    padding: 40px 10% 20px;
+    margin-top: 50px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 20px;
+}
+
+.promo-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #a5f3fc; /* Un celeste que resalta con el azul oscuro */
+}
+
+.contacto p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* Ajuste para que el cuerpo no quede tapado si usabas fixed */
+body {
+    padding-bottom: 0; /* Cambiamos el fixed por flujo normal para que quepa la info */
+}
